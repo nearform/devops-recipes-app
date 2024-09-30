@@ -1,0 +1,63 @@
+services:
+  postgresql:
+    container_name: 3tier_db
+    image: postgres:16.2-alpine
+    hostname: postgresql.3tier.local
+    environment:
+      - POSTGRES_USER=3tieruser
+      - POSTGRES_PASSWORD=3tierpassword
+      - POSTGRES_DB=tododb
+    networks:
+      - 3tier-network
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}"
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    ports:
+      - 5432:5432
+    volumes:
+      - ./postgresql/data:/var/lib/postgresql/data
+
+  backend:
+    container_name: server
+    hostname: backend.3tier.local
+    build:
+      context: server
+      dockerfile: ../server/Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - DATABASE_ADDRESS=3tier_db
+      - DATABASE_USERNAME=3tieruser
+      - DATABASE_PASSWORD=3tierpassword
+    networks:
+      - 3tier-network
+    depends_on:
+      - postgresql
+
+  frontend:
+    container_name: client
+    hostname: client.3tier.local
+    build:
+      context: client
+      dockerfile: ../client/Dockerfile
+    ports:
+      - "80:80"
+    environment:
+      - NODE_ENV=development
+    networks:
+      - 3tier-network
+    depends_on:
+      - backend
+      - postgresql
+
+volumes:
+  postgresql:
+    external: false
+networks:
+  3tier-network:
