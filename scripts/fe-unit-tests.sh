@@ -6,6 +6,9 @@ set -o pipefail
 
 # pushd .
 # cd ${repo_dir_name}/client
+echo "$PWD"
+ls
+ls -l
 cd ./client
 npm install
 CI=true npm run test
