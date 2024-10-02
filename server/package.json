@@ -6,7 +6,7 @@
   "dependencies": {
     "fastify": "^3.29.4",
     "fastify-postgres": "^3.6.0",
-    "pg": "^8.7.3"
+    "pg": "^8.13.0"
   },
   "devDependencies": {
     "pino-pretty": "^7.5.3",
