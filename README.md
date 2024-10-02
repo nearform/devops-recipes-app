@@ -15,3 +15,6 @@ Install [Docker](https://docs.docker.com/engine/install/) and [Docker Compose](h
 ```sh
 docker-compose up -d
 ```
+## Local development
+
+To run the front-end and backe-end locally you go use prepared bash script. Run `./scripts/run-locahost.sh` to have front-end and back-end up and running. This scripts is tmux based.
