@@ -10,6 +10,6 @@
   },
   "devDependencies": {
     "pino-pretty": "^7.5.3",
-    "tap": "^16.0.0"
+    "tap": "^21.0.1"
   }
 }
